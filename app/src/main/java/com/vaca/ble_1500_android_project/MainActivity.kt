@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.send.setOnClickListener {
             Log.e("fuck","fuckyou")
+            BleServer.worker.sendText("qwertyuioplkjhgfdsazxcvbnm")
         }
 
 

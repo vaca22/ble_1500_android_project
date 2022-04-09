@@ -33,9 +33,6 @@ class BleDataWorker {
     var startMill = 0L
 
 
-    companion object {
-        val fileProgressChannel = Channel<FileProgress>(Channel.CONFLATED)
-    }
 
     data class FileProgress(
         var name: String = "",
@@ -109,9 +106,13 @@ class BleDataWorker {
         }
     }
 
-    suspend fun waitConnect() {
-        connectChannel.receive()
+
+
+    fun sendText(s:String){
+        myBleDataManager?.sendCmd(s.toByteArray())
     }
+
+
 
     fun disconnect() {
         myBleDataManager?.disconnect()?.enqueue()
