@@ -12,8 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.vaca.ble_1500_android_project.databinding.ActivityMainBinding
+import com.vaca.ble_1500_android_project.utils.NetCmd
+import com.vaca.ble_1500_android_project.utils.PathUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -32,6 +35,16 @@ class MainActivity : AppCompatActivity() {
         binding.send.setOnClickListener {
             Log.e("fuck","fuckyou")
             BleServer.worker.sendText("qwertyuioplkjhgfdsazxcvbnm")
+        }
+
+        binding.getFile.setOnClickListener {
+            BleServer.dataScope.launch {
+                val nx=NetCmd.getFile()
+                nx?.let {
+                    Log.e("fuckSize",nx.size.toString())
+                    File(PathUtil.getPathX("fuck.bin")).writeBytes(it)
+                }
+            }
         }
 
 
