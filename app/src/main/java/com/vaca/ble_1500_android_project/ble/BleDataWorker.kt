@@ -5,10 +5,12 @@ import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.util.Log
 import com.vaca.ble_1500_android_project.BleServer
+import com.vaca.ble_1500_android_project.MainActivity
 import com.vaca.ble_1500_android_project.MainApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import no.nordicsemi.android.ble.callback.FailCallback
 import no.nordicsemi.android.ble.data.Data
@@ -44,7 +46,10 @@ class BleDataWorker {
         override fun onNotify(device: BluetoothDevice?, data: Data?) {
             data?.value?.apply {
                 val size = this.size
-                Log.e("getit", size.toString())
+                Log.e("getit",byteArray2String(this))
+                BleServer.dataScope.launch {
+                    MainActivity.receiveChannel.send(true)
+                }
 
             }
         }
@@ -106,7 +111,14 @@ class BleDataWorker {
         }
     }
 
-
+    fun byteArray2String(byteArray: ByteArray): String {
+        var fuc = ""
+        for (b in byteArray) {
+            val st = String.format("%02X", b)
+            fuc += ("$st  ");
+        }
+        return fuc
+    }
 
     fun sendText(s:String){
         myBleDataManager?.sendCmd(s.toByteArray())
