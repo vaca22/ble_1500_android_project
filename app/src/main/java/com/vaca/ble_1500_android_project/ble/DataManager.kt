@@ -105,8 +105,8 @@ class DataManager(context: Context) : BleManager(context) {
     }
 
     companion object {
-        val service_uuid: UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb")
-        val write_uuid: UUID = UUID.fromString("0000ffe2-0000-1000-8000-00805f9b34fb")
-        val notify_uuid: UUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb")
+        val service_uuid: UUID = UUID.fromString("59462f12-9543-9999-12c8-58b459a2712d")
+        val write_uuid: UUID = UUID.fromString("5c3a659e-897e-45e1-b016-007107c96df6")
+        val notify_uuid: UUID = UUID.fromString("4c3a659e-897e-45e1-b016-007107c96df6")
     }
 }

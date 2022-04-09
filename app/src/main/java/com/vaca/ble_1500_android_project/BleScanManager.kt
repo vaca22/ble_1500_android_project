@@ -136,13 +136,7 @@ class BleScanManager {
     fun stop() {
         try {
             Log.i("littlePu", "stopScan")
-            if (ActivityCompat.checkSelfPermission(
-                    MainApplication.application,
-                    Manifest.permission.BLUETOOTH_SCAN
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                return
-            }
+
             leScanner?.stopScan(leScanCallback)
         } catch (e: java.lang.Exception) {
 

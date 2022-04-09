@@ -4,6 +4,7 @@ package com.vaca.ble_1500_android_project.ble
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.util.Log
+import com.vaca.ble_1500_android_project.BleServer
 import com.vaca.ble_1500_android_project.MainApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,6 @@ import kotlinx.coroutines.sync.Mutex
 import no.nordicsemi.android.ble.callback.FailCallback
 import no.nordicsemi.android.ble.data.Data
 import no.nordicsemi.android.ble.observer.ConnectionObserver
-import java.lang.Thread.sleep
 
 class BleDataWorker {
     private var pool: ByteArray? = null
@@ -80,20 +80,15 @@ class BleDataWorker {
         }
 
         override fun onDeviceDisconnected(device: BluetoothDevice, reason: Int) {
-
+            BleServer.connectFlag = false
+            Log.e("fuck","断开了")
+            BleServer.scan.start()
         }
 
     }
 
 
     fun initWorker(context: Context, bluetoothDevice: BluetoothDevice?) {
-        try {
-            myBleDataManager?.disconnect()?.enqueue()
-            sleep(200)
-        } catch (ep: Exception) {
-
-        }
-
         bluetoothDevice?.let {
             myBleDataManager?.connect(it)
                 ?.useAutoConnect(false)
@@ -102,7 +97,7 @@ class BleDataWorker {
                 ?.done {
 
                     Log.i("BLE", "连接成功了.>>.....>>>>")
-
+                    BleServer.scan.stop()
 
                 }?.fail(object : FailCallback {
                     override fun onRequestFailed(device: BluetoothDevice, status: Int) {

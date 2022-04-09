@@ -3,11 +3,14 @@ package com.vaca.ble_1500_android_project
 import android.app.Application
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.BluetoothLeScanner
+import com.vaca.ble_1500_android_project.ble.BleDataWorker
 import kotlinx.coroutines.*
 
 
 object BleServer {
     val scan = BleScanManager()
+    val worker=BleDataWorker()
+    var connectFlag=false
 
     val dataScope = CoroutineScope(Dispatchers.IO)
     fun setScan(bluetoothLeScanner: BluetoothLeScanner) {
@@ -22,6 +25,11 @@ object BleServer {
                 rssi: Int,
                 press: Boolean
             ) {
+
+                if(!connectFlag){
+                    connectFlag=true
+                    worker.initWorker(app,bluetoothDevice)
+                }
 
 
             }
