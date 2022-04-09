@@ -4,13 +4,14 @@ import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.vaca.ble_1500_android_project.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -19,18 +20,26 @@ class MainActivity : AppCompatActivity() {
         val bleHandler = Handler()
         lateinit var mBluetoothAdapter: BluetoothAdapter
     }
-        override fun onCreate(savedInstanceState: Bundle?) {
+
+    lateinit var binding:ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+        binding.send.setOnClickListener {
+            Log.e("fuck","fuckyou")
+        }
 
 
         val requestVoicePermission = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             BleSS()
-
-
         }
+
 
 
 
