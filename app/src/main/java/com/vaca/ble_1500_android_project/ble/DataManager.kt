@@ -9,7 +9,7 @@ import no.nordicsemi.android.ble.BleManager
 import no.nordicsemi.android.ble.data.Data
 import java.util.*
 
-class ThermoBleDataManager(context: Context) : BleManager(context) {
+class DataManager(context: Context) : BleManager(context) {
     private var write_char: BluetoothGattCharacteristic? = null
     private var notify_char: BluetoothGattCharacteristic? = null
     private var listener: OnNotifyListener? = null

@@ -4,25 +4,21 @@ package com.vaca.ble_1500_android_project.ble
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.util.Log
-import com.vaca.ble_1500_android_project.BleServer
 import com.vaca.ble_1500_android_project.MainApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import no.nordicsemi.android.ble.callback.FailCallback
 import no.nordicsemi.android.ble.data.Data
 import no.nordicsemi.android.ble.observer.ConnectionObserver
-import org.json.JSONObject
 import java.lang.Thread.sleep
 
-class ThermoBleDataWorker {
+class BleDataWorker {
     private var pool: ByteArray? = null
     private val fileChannel = Channel<Int>(Channel.CONFLATED)
     private val connectChannel = Channel<String>(Channel.CONFLATED)
-    var myBleDataManager: ThermoBleDataManager? = null
+    var myBleDataManager: DataManager? = null
     private val dataScope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
 
@@ -47,7 +43,7 @@ class ThermoBleDataWorker {
         var success: Boolean = false
     )
 
-    private val comeData = object : ThermoBleDataManager.OnNotifyListener {
+    private val comeData = object : DataManager.OnNotifyListener {
         override fun onNotify(device: BluetoothDevice?, data: Data?) {
             data?.value?.apply {
                 val size = this.size
@@ -128,7 +124,7 @@ class ThermoBleDataWorker {
     }
 
     init {
-        myBleDataManager = ThermoBleDataManager(MainApplication.application)
+        myBleDataManager = DataManager(MainApplication.application)
         myBleDataManager?.setNotifyListener(comeData)
         myBleDataManager?.connectionObserver = connectState
     }
